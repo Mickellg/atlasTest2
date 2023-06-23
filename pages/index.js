@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import PostCard from '../components/Postcard';
 import client from '../lib/apollo';
-import { gql, useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export default function Home({posts}) {
   
@@ -37,8 +37,17 @@ export default function Home({posts}) {
 }
 
 export async function getStaticProps(){
+
+//   const client = new ApolloClient({
+//     link: new createHttpLink({
+
+//       uri: 'http://localhost:10005/graphql'}), 
+//       cache: new InMemoryCache(),
+   
+// })
   
-  const GET_POSTS = gql`
+  const {loading, error, response} = await client.query({
+   query: gql`
     query getAllPosts {
       posts {
         nodes {
@@ -50,13 +59,17 @@ export async function getStaticProps(){
     }
   }
 `
+  })
+console.log(GET_POSTS)
 
-// const response = await client.query({
+// const {loading, error, response} = await client.query({
 //     query: GET_POSTS
 //   })
-const response = useQuery(GET_POSTS)
 
-const posts  = response?.data?.posts?.nodes
+if (loading) return 'Loading...';
+if (error) return `Error! ${error.message}`;
+
+const posts  = response.data.posts.nodes
 return {
     props: {
       posts
