@@ -9,11 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@apollo/client": "^3.7.16",
+    "@apollo/client": "^3.8.0-alpha.15",
     "@wpengine/headless": "^0.6.3",
     "autoprefixer": "10.4.14",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.7",
+    "graphql": "^16.7.1",
     "headless": "^1.2.0",
     "next": "13.4.7",
     "postcss": "8.4.24",

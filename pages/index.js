@@ -1,10 +1,13 @@
 import Head from 'next/head';
 import PostCard from '../components/Postcard';
-import client from '../lib/apollo';
-import { gql } from '@apollo/client';
+// import client from '../lib/apollo';
+// import { gql } from '@apollo/client';
+
 
 export default function Home({posts}) {
   
+
+  console.log('POSTS',{posts});
 
   return (
     <div className="container">
@@ -18,15 +21,13 @@ export default function Home({posts}) {
           Headless WordPress Next.js Starter
         </h1>
 
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
         <div className="grid">
           {
-            posts.map((post) => {
+            posts.nodes.map(post => {
               return (
-                <PostCard key={post.uri} post={post}/>
+                <ul>
+            <PostCard key={post.uri} post={post} />
+                </ul>
               )
             })
           }
@@ -38,42 +39,61 @@ export default function Home({posts}) {
 
 export async function getStaticProps(){
 
-//   const client = new ApolloClient({
-//     link: new createHttpLink({
-
-//       uri: 'http://localhost:10005/graphql'}), 
-//       cache: new InMemoryCache(),
-   
-// })
-  
-  const {loading, error, response} = await client.query({
-   query: gql`
-    query getAllPosts {
-      posts {
-        nodes {
-          title
-          content
-          date
-          uri
-      }
-    }
-  }
-`
+  const res = await fetch('http://127.0.0.1:10014/graphql', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+          query: `
+          query getAllPosts {
+            posts {
+              nodes {
+                title
+                content
+                uri
+              }
+            }
+          }
+          `,
+      })
   })
-console.log(GET_POSTS)
+  
+//   const GET_POSTS = gql  `
+//     query getAllPosts {
+//       posts {
+//         nodes {
+//           title
+//           content
+//           date
+//           uri
+//       }
+//     }
+//   }
+// `
+  
 
+  // const response = await client.query(GET_POSTS)
+
+  // fetch('http://127.0.0.1:10014/graphql', {
+  //   method: 'POST', 
+  //   body: JSON.stringify({
+  //     GET_POSTS
+  //   })
+  // })
+
+  const json = await res.json()
 // const {loading, error, response} = await client.query({
 //     query: GET_POSTS
 //   })
 
-if (loading) return 'Loading...';
-if (error) return `Error! ${error.message}`;
+// if (loading) return 'Loading...';
+// if (error) return `Error! ${error.message}`;
 
-const posts  = response.data.posts.nodes
-return {
-    props: {
-      posts
+// const posts  = response?.data?.posts?.node;
+
+  return {
+      props: {
+        posts: json.data.posts,
+      }, 
     }
-  }
 }
 
