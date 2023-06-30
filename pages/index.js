@@ -5,10 +5,8 @@ import PostCard from '../components/Postcard';
 
 
 export default function Home({posts}) {
-  
 
-  console.log('POSTS',{posts});
-
+ 
   return (
     <div className="container">
       <Head>
@@ -26,7 +24,7 @@ export default function Home({posts}) {
             posts.nodes.map(post => {
               return (
                 <ul>
-            <PostCard key={post.uri} post={post} />
+            <PostCard  key={post.slug} post={post}>{post.title}</PostCard>
                 </ul>
               )
             })

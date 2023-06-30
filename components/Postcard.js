@@ -5,9 +5,9 @@ import Link from "next/link";
 
 export default function PostCard ({post}){
   
+    console.log(post.uri)
     return (
-        <Link href={post.uri} className="card">
-            <h3>{post.title} </h3>
+        <Link href={`/posts${post.uri}`} className="card">{post.title}
         </Link>
 
 

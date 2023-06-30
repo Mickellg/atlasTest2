@@ -3,6 +3,7 @@ body {
     padding: 0;
     margin: 0;
     font-family: var(--bs-font-sans-serif);
+    background-color: aqua;
 }
 
 * {
@@ -96,7 +97,7 @@ a {
     padding: 5rem 2.5rem;
     background: var(--lapis-gradient);
     color: white;
-    text-align: center;
+    text-align: justify;
 }
 
 .siteHeader .title { 
@@ -146,7 +147,7 @@ code {
 .card:hover,
 .card:focus,
 .card:active {
-    color: yellow;
+    color: greenyellow;
     border-color: white;
     text-decoration: underline;
 }
